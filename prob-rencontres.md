@@ -31,3 +31,7 @@ Solution : 100 ms est trop court pour une requête par Internet vers Google (con
 8. Test 4 ne compile plus après l'ajout de easy-rag (Test 5)
 Problème : comme le demande l'énoncé, j'ai mis en commentaire la dépendance du modèle d'embeddings intégré pour éviter un conflit avec easy-rag. Erreur de compilation dans Test4Embeddings : "package dev.langchain4j.model.embedding.onnx.bgesmallenv15 does not exist". IntelliJ compile tout le projet avant de lancer un test, donc Test5Rag1 ne pouvait pas s'exécuter.
 Solution : easy-rag contient déjà une version quantifiée (plus légère) du même modèle. Dans Test4Embeddings, j'ai remplacé BgeSmallEnV15EmbeddingModel par BgeSmallEnV15QuantizedEmbeddingModel (package dev.langchain4j.model.embedding.onnx.bgesmallenv15q).
+
+9. Erreur 400 après plusieurs questions avec l'outil météo (Test 7)
+Problème : après 5 questions dans la même conversation, erreur "400 INVALID_ARGUMENT. Please ensure that function call turn comes immediately after a user turn or after a function response turn."
+Solution : chaque utilisation de l'outil ajoute des messages dans la mémoire (appel de l'outil par le LLM, puis résultat de l'outil). La mémoire de 20 messages était pleine, elle a supprimé les plus anciens, dont une question de l'utilisateur. L'historique envoyé commençait alors par un appel d'outil, ce que Gemini refuse. J'ai relancé le programme pour repartir avec une mémoire vide, comme le conseille l'énoncé.
