@@ -19,3 +19,11 @@ Solution : avec une seule valeur, LangChain4j la met dans une variable nommée i
 5. Avertissement SLF4J au lancement
 Problème : message "No SLF4J providers were found" à chaque exécution.
 Solution : ce n'est pas une erreur. LangChain4j écrit ses logs avec SLF4J, mais aucune implémentation n'est installée, donc les logs sont ignorés. Il faudra ajouter Logback pour les voir (Test 7).
+
+6. Package du modèle d'embeddings intégré introuvable (Test 4)
+Problème : erreur de compilation "package dev.langchain4j.model.embedding.onnx.bgesmallenv15 does not exist".
+Solution : le modèle BgeSmallEnV15EmbeddingModel n'est pas dans les dépendances de base de LangChain4j. J'ai ajouté dans pom.xml la dépendance langchain4j-embeddings-bge-small-en-v15, puis rechargé Maven.
+
+7. Timeout du modèle d'embeddings de Google (Test 4)
+Problème : avec un timeout de 100 ms, erreur "GenAiIOException: Failed to execute HTTP request", causée par "InterruptedIOException: timeout".
+Solution : 100 ms est trop court pour une requête par Internet vers Google (connexion sécurisée, puis calcul de l'embedding). Comme le demande l'énoncé, j'ai augmenté le timeout : Duration.ofSeconds(5).
