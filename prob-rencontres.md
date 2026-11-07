@@ -27,3 +27,7 @@ Solution : le modèle BgeSmallEnV15EmbeddingModel n'est pas dans les dépendance
 7. Timeout du modèle d'embeddings de Google (Test 4)
 Problème : avec un timeout de 100 ms, erreur "GenAiIOException: Failed to execute HTTP request", causée par "InterruptedIOException: timeout".
 Solution : 100 ms est trop court pour une requête par Internet vers Google (connexion sécurisée, puis calcul de l'embedding). Comme le demande l'énoncé, j'ai augmenté le timeout : Duration.ofSeconds(5).
+
+8. Test 4 ne compile plus après l'ajout de easy-rag (Test 5)
+Problème : comme le demande l'énoncé, j'ai mis en commentaire la dépendance du modèle d'embeddings intégré pour éviter un conflit avec easy-rag. Erreur de compilation dans Test4Embeddings : "package dev.langchain4j.model.embedding.onnx.bgesmallenv15 does not exist". IntelliJ compile tout le projet avant de lancer un test, donc Test5Rag1 ne pouvait pas s'exécuter.
+Solution : easy-rag contient déjà une version quantifiée (plus légère) du même modèle. Dans Test4Embeddings, j'ai remplacé BgeSmallEnV15EmbeddingModel par BgeSmallEnV15QuantizedEmbeddingModel (package dev.langchain4j.model.embedding.onnx.bgesmallenv15q).

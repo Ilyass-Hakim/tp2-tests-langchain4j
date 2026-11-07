@@ -2,7 +2,7 @@ package ma.hakim;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.embedding.onnx.bgesmallenv15.BgeSmallEnV15EmbeddingModel;
+import dev.langchain4j.model.embedding.onnx.bgesmallenv15q.BgeSmallEnV15QuantizedEmbeddingModel;
 import dev.langchain4j.model.google.genai.GoogleGenAiEmbeddingModel;
 import dev.langchain4j.store.embedding.CosineSimilarity;
 
@@ -20,7 +20,7 @@ public class Test4Embeddings {
     };
 
     public static void main(String[] args) {
-        EmbeddingModel modeleIntegre = new BgeSmallEnV15EmbeddingModel();
+        EmbeddingModel modeleIntegre = new BgeSmallEnV15QuantizedEmbeddingModel();
 
         EmbeddingModel modeleGoogle = GoogleGenAiEmbeddingModel.builder()
                 .apiKey(System.getenv("GEMINI_KEY"))
@@ -29,7 +29,7 @@ public class Test4Embeddings {
                 .timeout(Duration.ofSeconds(5))
                 .build();
 
-        System.out.println("=== Modèle intégré (BgeSmallEnV15) ===");
+        System.out.println("=== Modèle intégré (BgeSmallEnV15 quantifié) ===");
         afficherSimilarites(modeleIntegre);
 
         System.out.println("=== Modèle Google (gemini-embedding-001) ===");
